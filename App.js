@@ -34,7 +34,7 @@ export default function App() {
     }
     await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
     await recorder.prepareToRecordAsync();
-    await recorder.record();
+    recorder.record();
   };
 
   const stopRecording = async () => {
