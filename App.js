@@ -14,15 +14,14 @@ export default function App() {
 
   const [uri, setUri] = useState(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     (async () => {
       const { status } = await AudioModule.requestRecordingPermissionsAsync();
       setPermissionGranted(status === 'granted');
     })();
-    return () => {
-      if (recorder.isRecording) recorder.stop().catch(() => { });
+    return async () => {
+      if (recorder.isRecording) await recorder.stop();
       player?.unload?.();
     };
   }, []);
@@ -45,7 +44,7 @@ export default function App() {
     await setAudioModeAsync({ allowsRecording: false, playsInSilentMode: true });
   };
 
-  const playLast = async () => {
+  const play = async () => {
     if (!uri) return;
 
     if (typeof player.replace === 'function') {
@@ -54,7 +53,6 @@ export default function App() {
       await player.load({ uri });
     }
     player.seekTo?.(0);
-    setIsPlaying(true);
     await player.play();
   };
 
@@ -77,7 +75,7 @@ export default function App() {
       </Text>
 
       <View style={styles.row}>
-        <Button title="Play" onPress={playLast} />
+        <Button title="Play" onPress={play} />
       </View>
     </View>
   );
