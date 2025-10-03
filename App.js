@@ -20,8 +20,8 @@ export default function App() {
       const { status } = await AudioModule.requestRecordingPermissionsAsync();
       setPermissionGranted(status === 'granted');
     })();
-    return async () => {
-      if (recorder.isRecording) await recorder.stop();
+    return () => {
+      if (recorder.isRecording) recorder.stop();
       player?.unload?.();
     };
   }, []);
