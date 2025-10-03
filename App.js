@@ -47,11 +47,7 @@ export default function App() {
   const play = async () => {
     if (!uri) return;
 
-    if (typeof player.replace === 'function') {
-      await player.replace({ uri });
-    } else if (typeof player.load === 'function') {
-      await player.load({ uri });
-    }
+    await player.replace({ uri });
     player.seekTo?.(0);
     await player.play();
   };
@@ -67,11 +63,9 @@ export default function App() {
       </View>
 
       <Text style={styles.status}>
-        {recorder.isRecording
-          ? `Recording… ${(recorder.durationMillis / 1000).toFixed(1)}s`
-          : uri
-            ? `Ready: ${Platform.OS === 'android' ? uri.replace(/^.*\//, '') : 'last.m4a'}`
-            : 'No recording yet'}
+        {uri
+          ? `Ready`
+          : 'No recording yet'}
       </Text>
 
       <View style={styles.row}>
